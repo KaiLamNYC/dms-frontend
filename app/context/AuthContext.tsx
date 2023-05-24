@@ -1,0 +1,20 @@
+"use client";
+
+import { createContext, useState } from "react";
+
+export const AuthContext = createContext();
+
+export const AuthProvider = ({ children }: any) => {
+	const [auth, setAuth] = useState({
+		email: "",
+		name: "",
+		accessToken: "",
+		auth: false,
+	});
+
+	return (
+		<AuthContext.Provider value={{ auth, setAuth }}>
+			{children}
+		</AuthContext.Provider>
+	);
+};

@@ -3,8 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { userInfo } from "os";
+import React, { use, useContext, useState } from "react";
 import Navbar from "../components/Navbar";
+import { AuthContext } from "../context/AuthContext";
 import loginUser from "../lib/loginUser";
 
 // export default function () {
@@ -29,12 +31,29 @@ export default function LogInPage() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
+	const { auth, setAuth } = useContext(AuthContext);
+
 	const router = useRouter();
 
 	const handleSubmit = async (e: any) => {
 		e.preventDefault();
 		//REGISTER FUNCTION
 		const data = await loginUser(email, password);
+
+		setAuth({
+			email: data.email,
+			name: data.name,
+			accessToken: data.token,
+			auth: data.auth,
+		});
+		console.log(auth);
+		localStorage.setItem("token", `${data.token}`);
+		// console.log(localStorage.getItem("token"));
+		if (data.auth) {
+			router.push("/dashboard");
+		} else {
+			router.push("/");
+		}
 		console.log(data);
 
 		//need some error handling before redirect to login

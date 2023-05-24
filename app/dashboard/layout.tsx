@@ -3,7 +3,12 @@
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
+
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+
+import { useRouter } from "next/navigation";
 
 const user = {
 	name: "Tom Cook",
@@ -21,7 +26,7 @@ const navigation = [
 const userNavigation = [
 	{ name: "Your Profile", href: "/dashboard/account" },
 	{ name: "Settings", href: "/login" },
-	{ name: "Sign out", href: "#" },
+	{ name: "Sign Out", href: "#" },
 ];
 
 function classNames(...classes: any) {
@@ -33,6 +38,26 @@ export default function DashboardLayout({
 }: {
 	children: React.ReactNode;
 }) {
+	const { auth, setAuth } = useContext(AuthContext);
+	const router = useRouter();
+
+	const handleSignOut = (e: any) => {
+		e.preventDefault();
+		localStorage.removeItem("token");
+		setAuth({});
+		router.push("/");
+	};
+
+	//USE EFFECT TO PROTECT THE ROUTE NEED TO FIX
+	useEffect(() => {
+		if (!auth.auth) {
+			console.log("sorry you dont have access");
+			router.push("/");
+		} else {
+			console.log("authorized user!");
+		}
+	}, []);
+
 	return (
 		<>
 			{/*
@@ -127,6 +152,38 @@ export default function DashboardLayout({
 														{userNavigation.map((item) => (
 															<Menu.Item key={item.name}>
 																{({ active }) => (
+																	<>
+																		{item.name !== "Sign Out" ? (
+																			<Link
+																				href={item.href}
+																				className={classNames(
+																					active ? "bg-gray-100" : "",
+																					"block px-4 py-2 text-sm text-gray-700"
+																				)}
+																			>
+																				{item.name}
+																			</Link>
+																		) : (
+																			<button
+																				onClick={handleSignOut}
+																				className={classNames(
+																					active ? "bg-gray-100" : "",
+																					"block px-4 py-2 text-sm text-gray-700"
+																				)}
+																			>
+																				{item.name}
+																			</button>
+																		)}
+																	</>
+																)}
+															</Menu.Item>
+														))}
+													</Menu.Items>
+
+													{/* <Menu.Items className='absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md ring-1 ring-black ring-opacity-5 bg-white py-1 shadow-lg  focus:outline-none'>
+														{userNavigation.map((item) => (
+															<Menu.Item key={item.name}>
+																{({ active }) => (
 																	<Link
 																		href={item.href}
 																		className={classNames(
@@ -139,7 +196,7 @@ export default function DashboardLayout({
 																)}
 															</Menu.Item>
 														))}
-													</Menu.Items>
+													</Menu.Items> */}
 												</Transition>
 											</Menu>
 										</div>
@@ -208,10 +265,10 @@ export default function DashboardLayout({
 										</div>
 										<div className='ml-3'>
 											<div className='text-base font-medium leading-none text-white'>
-												{user.name}
+												{auth.name}
 											</div>
 											<div className='text-sm font-medium leading-none text-gray-400'>
-												{user.email}
+												{auth.email}
 											</div>
 										</div>
 										<button
