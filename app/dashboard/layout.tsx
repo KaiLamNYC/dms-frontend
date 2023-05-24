@@ -3,12 +3,16 @@
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 import { useRouter } from "next/navigation";
+
+import { EmailProvider } from "./context/EmailContext";
+
+// import axios from "axios";
 
 const user = {
 	name: "Tom Cook",
@@ -41,6 +45,8 @@ export default function DashboardLayout({
 	const { auth, setAuth } = useContext(AuthContext);
 	const router = useRouter();
 
+	// const [emails, setEmails] = useContect(EmailContext);
+
 	const handleSignOut = (e: any) => {
 		e.preventDefault();
 		localStorage.removeItem("token");
@@ -49,14 +55,43 @@ export default function DashboardLayout({
 	};
 
 	//USE EFFECT TO PROTECT THE ROUTE NEED TO FIX
-	useEffect(() => {
-		if (!auth.auth) {
-			console.log("sorry you dont have access");
-			router.push("/");
-		} else {
-			console.log("authorized user!");
-		}
-	}, []);
+	// useEffect(() => {
+	// 	if (!auth.auth) {
+	// 		console.log("sorry you dont have access");
+	// 		router.push("/");
+	// 	} else {
+	// 		console.log("authorized user!");
+	// 	}
+	// }, []);
+
+	// useEffect(() => {
+	// 	const fetchEmails = async () => {
+	// 		try {
+	// 			const response = await axios.get(
+	// 				"http://localhost:3001/api/users/get-emails",
+	// 				{
+	// 					headers: {
+	// 						"x-access-token": localStorage.getItem("token"),
+	// 					},
+	// 				}
+	// 			);
+	// 			console.log(response);
+	// 			if (response.data.auth === false) {
+	// 				// setTeams([]);
+	// 				//failed jwtverify
+	// 				router.push("/");
+	// 			} else if (response.data.payload.length > 0) {
+	// 				setEmails(response.data.payload);
+	// 				// console.log(teams);
+	// 				// console.log(emails);
+	// 			}
+	// 		} catch (error) {
+	// 			console.log(error);
+	// 		}
+	// 	};
+
+	// 	fetchEmails();
+	// }, []);
 
 	return (
 		<>
@@ -308,12 +343,7 @@ export default function DashboardLayout({
 					<div className='mx-auto max-w-7xl py-6 sm:px-6 lg:px-8'>
 						{/* Your content */}
 
-						{/* <h2>Welcome user</h2>
-						<h2>You currently have x switches running</h2>
-						<button className='bg-accent-color text-lg text-secondary-button p-2'>
-							TEST BUTTON
-						</button> */}
-						{children}
+						<EmailProvider>{children}</EmailProvider>
 					</div>
 				</main>
 			</div>
