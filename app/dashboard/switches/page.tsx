@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useContext } from "react";
+import Link from "next/link";
+import React, { useContext, useEffect, useState } from "react";
 import { EmailContext } from "../context/EmailContext";
 
 export default function SwitchesPage() {
@@ -13,8 +14,12 @@ export default function SwitchesPage() {
 			{emails.map((email: any, i: number) => {
 				return (
 					<div key={i}>
-						<p>To: {email.toAddress}</p>
+						<Link href={`/dashboard/switches/${email.id}`}>
+							<p>To: {email.toAddress}</p>
+						</Link>
+
 						<p>Subject: {email.subject}</p>
+						{/* <button>delete</button> */}
 						<br />
 					</div>
 				);
