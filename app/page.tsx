@@ -37,7 +37,7 @@ export default function Home() {
 							</button>
 						</Link>
 						<Link href='/features'>
-							<button className='bg-secondary-button text-text-black text-lg p-4 rounded'>
+							<button className='bg-accent-color text-secondary-button text-lg p-4 rounded'>
 								How does it work?
 							</button>
 						</Link>

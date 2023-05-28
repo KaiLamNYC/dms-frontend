@@ -10,9 +10,8 @@ import { AuthContext } from "../context/AuthContext";
 
 import { useRouter } from "next/navigation";
 
-import { EmailProvider } from "./context/EmailContext";
-
-// import axios from "axios";
+import axios from "axios";
+import { EmailContext, EmailProvider } from "./context/EmailContext";
 
 const user = {
 	name: "Tom Cook",
@@ -22,14 +21,14 @@ const user = {
 };
 const navigation = [
 	{ name: "Dashboard", href: "/dashboard", current: true },
-	{ name: "Switches", href: "/dashboard/switches", current: false },
+	{ name: "Tasks", href: "/dashboard/switches", current: false },
 	{ name: "Create", href: "/dashboard/createSwitch", current: false },
 	// { name: "Calendar", href: "#", current: false },
 	// { name: "Reports", href: "#", current: false },
 ];
 const userNavigation = [
 	{ name: "Your Profile", href: "/dashboard/account" },
-	{ name: "Settings", href: "/login" },
+	// { name: "Settings", href: "/login" },
 	{ name: "Sign Out", href: "#" },
 ];
 
@@ -45,7 +44,7 @@ export default function DashboardLayout({
 	const { auth, setAuth } = useContext(AuthContext);
 	const router = useRouter();
 
-	// const [emails, setEmails] = useContect(EmailContext);
+	// const { emails, setEmails } = useContext(EmailContext);
 
 	const handleSignOut = (e: any) => {
 		e.preventDefault();
@@ -53,6 +52,35 @@ export default function DashboardLayout({
 		setAuth({});
 		router.push("/");
 	};
+
+	// useEffect(() => {
+	// 	const fetchEmails = async () => {
+	// 		try {
+	// 			const response = await axios.get(
+	// 				"http://localhost:3001/api/users/get-emails",
+	// 				{
+	// 					headers: {
+	// 						"x-access-token": localStorage.getItem("token"),
+	// 					},
+	// 				}
+	// 			);
+	// 			console.log(response);
+	// 			if (response.data.auth === false) {
+	// 				// setTeams([]);
+	// 				//failed jwtverify
+	// 				router.push("/");
+	// 			} else if (response.data.payload.length > 0) {
+	// 				setEmails(response.data.payload);
+	// 				// console.log(teams);
+	// 				// console.log(emails);
+	// 			}
+	// 		} catch (error) {
+	// 			console.log(error);
+	// 		}
+	// 	};
+
+	// 	fetchEmails();
+	// });
 
 	//USE EFFECT TO PROTECT THE ROUTE NEED TO FIX
 	// useEffect(() => {

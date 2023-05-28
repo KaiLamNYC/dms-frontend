@@ -19,6 +19,7 @@ module.exports = {
 			"secondary-button": "#e2e4e4",
 			"text-black": "#131515",
 			"accent-color": "#252522",
+			red: "#DC2626",
 		},
 	},
 	plugins: [require("@tailwindcss/forms")],

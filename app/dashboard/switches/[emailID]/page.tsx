@@ -1,45 +1,56 @@
 "use client";
-
-// import getOneUserEmail from "@/app/lib/getOneUserEmail";
 import axios from "axios";
-// import { useParams, useRouter } from "next/navigation";
-import React, { useContext, useEffect, useState } from "react";
-// import { EmailContext } from "../../context/EmailContext";
+import React, { useEffect, useState } from "react";
 
-export default async function OneEmailPage({ params }) {
-	// const [oneEmail, setOneEmail] = useState();
-	const emailId = params.emailId;
-	// useEffect(() => {
-	// 	const fetchOneEmail = async () => {
-	// 		try {
-	// 			const response = await axios.get(
-	// 				"http://localhost:3001/api/users/get-one-email/${params.user}",
-	// 				{
-	// 					headers: {
-	// 						"x-access-token": localStorage.getItem("token"),
-	// 					},
-	// 				}
-	// 			);
-	// 			console.log(response);
-	// 			if (response.data.auth === false) {
-	// 				// setTeams([]);
-	// 				//failed jwtverify
-	// 				router.push("/");
-	// 			} else if (response.data.payload.length > 0) {
-	// 				setEmails(response.data.payload);
-	// 				// console.log(teams);
-	// 				// console.log(emails);
-	// 			}
-	// 		} catch (error) {
-	// 			console.log(error);
-	// 		}
-	// 	};
+export default function OneEmailPage({ params }) {
+	// const router = useRouter();
 
-	// 	fetchOneEmail();
-	// });
+	const [oneEmail, setOneEmail] = useState({});
+	const [emailPassword, setEmailPassword] = useState("");
+	useEffect(() => {
+		const fetchEmails = async () => {
+			try {
+				const response = await axios.get(
+					`http://localhost:3001/api/users/get-one-email/${params.emailID}`,
+					{
+						headers: {
+							"x-access-token": localStorage.getItem("token"),
+						},
+					}
+				);
+				console.log(response);
+				setOneEmail(response.data.payload);
+			} catch (error) {
+				console.log(error);
+			}
+		};
+
+		fetchEmails();
+	}, [params.emailID]);
+
+	const handleDelete = (e: any) => {
+		e.preventDefault();
+		console.log("delete me pls");
+		console.log(emailPassword);
+	};
 	return (
-		<>
-			<h1>{emailId}</h1>
-		</>
+		<div>
+			<h2>these are params {params.emailID}</h2>
+			<h2>To: {oneEmail.toAddress}</h2>
+			<h2>Subject: {oneEmail.subject}</h2>
+			<p>Password:</p>
+			<input
+				type='text'
+				value={emailPassword}
+				onChange={(e: any) => setEmailPassword(e.target.value)}
+			/>
+			<br />
+			<button
+				className='bg-accent-color text-lg text-secondary-button p-2 mt-2'
+				onClick={handleDelete}
+			>
+				Delete
+			</button>
+		</div>
 	);
 }
