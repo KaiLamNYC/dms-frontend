@@ -1,10 +1,25 @@
+"use client";
+import updateUserPass from "@/app/lib/updateUserPass";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 
 export default function ChangePasswordPage() {
+	const [oldPassword, setOldPassword] = useState("");
+	const [newPassword, setNewPassword] = useState("");
+	const [confirmPassword, setConfirmPassword] = useState("");
+
+	const router = useRouter();
+
+	const handleSubmit = async (e: any) => {
+		e.preventDefault();
+		let data = await updateUserPass(oldPassword, newPassword, confirmPassword);
+		router.push("/dashboard");
+	};
+
 	return (
 		<>
-			<form>
+			<form onSubmit={handleSubmit}>
 				<div className='space-y-12'>
 					<div className='border-b border-gray-900/10 pb-12'>
 						<h2 className='text-base font-semibold leading-7 text-gray-900'>
@@ -27,6 +42,8 @@ export default function ChangePasswordPage() {
 										type='password'
 										name='oldPass'
 										id='oldPass'
+										value={oldPassword}
+										onChange={(e) => setOldPassword(e.target.value)}
 										// autoComplete='address-level2'
 										className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
 									/>
@@ -45,6 +62,8 @@ export default function ChangePasswordPage() {
 										type='password'
 										name='newPass'
 										id='newPass'
+										value={newPassword}
+										onChange={(e) => setNewPassword(e.target.value)}
 										// autoComplete='address-level1'
 										className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
 									/>
@@ -63,7 +82,9 @@ export default function ChangePasswordPage() {
 										type='password'
 										name='confirmPass'
 										id='confirmPass'
-										autoComplete='postal-code'
+										value={confirmPassword}
+										onChange={(e) => setConfirmPassword(e.target.value)}
+										// autoComplete='postal-code'
 										className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
 									/>
 								</div>

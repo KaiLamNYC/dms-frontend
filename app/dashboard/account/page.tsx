@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 //FUNCTION TO GET THE USERS DATA
+import updateUserInfo from "@/app/lib/updateUserInfo";
 //CONTACTS THE
 
 export default function AccountPage() {
@@ -40,9 +41,20 @@ export default function AccountPage() {
 
 		fetchUser();
 	}, []);
+
+	const [firstName, setFirstName] = useState("");
+	const [lastName, setLastName] = useState("");
+	const [email, setEmail] = useState("");
+
+	const handleSubmit = async (e: any) => {
+		e.preventDefault();
+		let name = firstName + " " + lastName;
+		let data = await updateUserInfo(email, name);
+		router.push("/dashboard");
+	};
 	return (
 		<>
-			<form>
+			<form onSubmit={handleSubmit}>
 				<div className='space-y-12'>
 					<div className='border-b border-gray-900/10 pb-12'>
 						<h2 className='text-base font-semibold leading-7 text-gray-900'>
@@ -66,6 +78,8 @@ export default function AccountPage() {
 										name='first-name'
 										id='first-name'
 										// autoComplete='given-name'
+										value={firstName}
+										onChange={(e) => setFirstName(e.target.value)}
 										placeholder={currentUser.firstName}
 										className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
 									/>
@@ -85,6 +99,8 @@ export default function AccountPage() {
 										name='last-name'
 										id='last-name'
 										// autoComplete='family-name'
+										value={lastName}
+										onChange={(e) => setLastName(e.target.value)}
 										placeholder={currentUser.lastName}
 										className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
 									/>
@@ -96,7 +112,7 @@ export default function AccountPage() {
 									htmlFor='email'
 									className='block text-sm font-medium leading-6 text-gray-900'
 								>
-									Email address
+									Email Address
 								</label>
 								<div className='mt-2'>
 									<input
@@ -104,31 +120,33 @@ export default function AccountPage() {
 										name='email'
 										type='email'
 										// autoComplete='email'
+										value={email}
+										onChange={(e) => setEmail(e.target.value)}
 										placeholder={currentUser.email}
 										className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
 									/>
 								</div>
 							</div>
 
-							<div className='sm:col-span-2 sm:col-start-1'>
+							{/* <div className='sm:col-span-2 sm:col-start-1'>
 								<label
 									htmlFor='city'
 									className='block text-sm font-medium leading-6 text-gray-900'
 								>
-									Old Password
+									Password
 								</label>
 								<div className='mt-2'>
 									<input
 										type='password'
-										name='oldPass'
-										id='oldPass'
+										name='password'
+										id='password'
 										// autoComplete='address-level2'
 										className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
 									/>
 								</div>
-							</div>
+							</div> */}
 
-							<div className='sm:col-span-2'>
+							{/* <div className='sm:col-span-2'>
 								<label
 									htmlFor='region'
 									className='block text-sm font-medium leading-6 text-gray-900'
@@ -162,7 +180,7 @@ export default function AccountPage() {
 										className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
 									/>
 								</div>
-							</div>
+							</div> */}
 						</div>
 					</div>
 				</div>

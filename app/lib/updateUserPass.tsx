@@ -1,12 +1,17 @@
 import axios from "axios";
 
-export default async function updateUserInfo(email: string, name: string) {
+export default async function updateUserPass(
+	oldPassword: string,
+	newPassword: string,
+	confirmPassword: string
+) {
 	try {
 		const response = await axios.put(
-			"http://localhost:3001/api/users/update-user-info",
+			"http://localhost:3001/api/users/update-user-password",
 			{
-				email,
-				name,
+				oldPassword,
+				newPassword,
+				confirmPassword,
 			},
 			{
 				headers: {
