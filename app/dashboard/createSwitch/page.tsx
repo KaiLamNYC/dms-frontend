@@ -130,24 +130,21 @@ export default function CreateSwitch() {
 						{/* <p>intervals go here {intervalList}</p> */}
 						<ul>
 							{intervalList.map((interval, i) => (
-								<li key={i}>
+								<li key={i} className='text-sm'>
 									{interval}{" "}
-									<button
-										onClick={() => {
-											setIntervalList(
-												intervalList.filter((i) => i.key !== interval.key)
-											);
-										}}
-									>
-										Delete
-									</button>
 								</li>
 							))}
 						</ul>
-						<button onClick={addDate} className='block'>
+						<button
+							onClick={addDate}
+							className='text-xs p-1 bg-accent-color text-secondary-button'
+						>
 							Add Date
 						</button>
-						<button onClick={clearDates} className='block'>
+						<button
+							onClick={clearDates}
+							className=' text-xs p-1 bg-red text-secondary-button'
+						>
 							Clear Dates
 						</button>
 

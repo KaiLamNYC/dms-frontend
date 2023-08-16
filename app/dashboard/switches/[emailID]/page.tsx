@@ -3,6 +3,7 @@ import deleteEmail from "@/app/lib/deleteEmail";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { EmailContext } from "../../context/EmailContext";
 
 export default function OneEmailPage({ params }) {
@@ -41,11 +42,17 @@ export default function OneEmailPage({ params }) {
 		console.log(data);
 		// console.log("delete me pls");
 		// console.log(emailPassword);
-		setEmails({});
-		router.push("/dashboard");
+		if (data.message == "error") {
+			toast.error(`${data.payload}`);
+		} else {
+			setEmails({});
+			router.push("/dashboard/switches");
+		}
 	};
 	return (
 		<div className='max-w-md'>
+			<Toaster position='top-center' reverseOrder={false} />
+
 			{/* <h2>these are params {params.emailID}</h2>
 			<h2>To: {oneEmail.toAddress}</h2>
 			<h2>Subject: {oneEmail.subject}</h2>

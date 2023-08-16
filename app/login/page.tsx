@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { userInfo } from "os";
 import React, { use, useContext, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import Navbar from "../components/Navbar";
 import { AuthContext } from "../context/AuthContext";
 import loginUser from "../lib/loginUser";
@@ -51,14 +52,16 @@ export default function LogInPage() {
 		// console.log(localStorage.getItem("token"));
 		if (data.auth) {
 			router.push("/dashboard");
-		} else {
-			router.push("/");
+		} else if (data.message == "error") {
+			toast.error(`${data.payload}`);
+			// router.push("/");
 		}
 		console.log(data);
 
 		//need some error handling before redirect to login
 		// router.push('/login')
 	};
+
 	return (
 		<>
 			{/*
@@ -69,6 +72,7 @@ export default function LogInPage() {
 		  <body class="h-full">
 		  ```
 		*/}
+			<Toaster position='top-center' reverseOrder={false} />
 			<Navbar />
 			<div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
 				<div className='sm:mx-auto sm:w-full sm:max-w-sm'>
