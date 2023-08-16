@@ -14,6 +14,7 @@ export default function CreateSwitch() {
 
 	const handleCreateTask = async (e: any) => {
 		e.preventDefault();
+		setIntervals(intervalList.join(", "));
 		const data = await createEmail(
 			toEmail,
 			toSubject,
@@ -23,6 +24,21 @@ export default function CreateSwitch() {
 		);
 		router.push("/dashboard");
 	};
+
+	const addDate = async (e: any) => {
+		e.preventDefault();
+		console.log(intervalList);
+		setIntervalList([...intervalList, intervals]);
+	};
+
+	const clearDates = async (e: any) => {
+		e.preventDefault();
+		console.log(intervals);
+		setIntervalList([]);
+	};
+
+	//FOR THE INTERVALS
+	const [intervalList, setIntervalList] = useState([]);
 
 	const [toEmail, setToEmail] = useState("");
 	const [toSubject, setToSubject] = useState("");
@@ -111,9 +127,33 @@ export default function CreateSwitch() {
 						>
 							Intervals
 						</label>
+						{/* <p>intervals go here {intervalList}</p> */}
+						<ul>
+							{intervalList.map((interval, i) => (
+								<li key={i}>
+									{interval}{" "}
+									<button
+										onClick={() => {
+											setIntervalList(
+												intervalList.filter((i) => i.key !== interval.key)
+											);
+										}}
+									>
+										Delete
+									</button>
+								</li>
+							))}
+						</ul>
+						<button onClick={addDate} className='block'>
+							Add Date
+						</button>
+						<button onClick={clearDates} className='block'>
+							Clear Dates
+						</button>
+
 						<div className='mt-2.5'>
 							<input
-								type='text'
+								type='date'
 								name='intervals'
 								id='intervals'
 								value={intervals}
@@ -147,7 +187,6 @@ export default function CreateSwitch() {
 				<div className='mt-10 mb-20'>
 					<button
 						type='submit'
-						// className='block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
 						className='block w-full rounded-md bg-a px-3.5 py-2.5 text-center text-sm font-semibold text-red-400 shadow-sm'
 					>
 						Create Switch!

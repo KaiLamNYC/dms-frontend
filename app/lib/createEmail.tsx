@@ -26,6 +26,6 @@ export default async function createEmail(
 		return response.data;
 	} catch (error) {
 		console.log(error);
-		throw new Error("Failed to log in");
+		throw new Error("Failed to create email");
 	}
 }

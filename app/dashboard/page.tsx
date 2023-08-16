@@ -29,6 +29,8 @@ export default function DashboardHome() {
 					router.push("/");
 				} else if (response.data.payload.length > 0) {
 					setEmails(response.data.payload);
+					console.log(response.data.payload);
+
 					// console.log(teams);
 					// console.log(emails);
 				}
@@ -39,14 +41,44 @@ export default function DashboardHome() {
 
 		fetchEmails();
 	}, []);
+
+	// if (!emails) {
+	// 	return (
+	// 		<div className='flex items-center justify-center mt-48'>
+	// 			<h2 className='text-2xl'>NO EMAILS FOUND</h2>
+	// 		</div>
+	// 	);
+	// } else {
+	// 	return (
+	// 		<>
+	// 			{/* <h2>Welcome user {auth.name}</h2> */}
+
+	// 			<div className='flex items-center justify-center mt-48'>
+	// 				<h2 className='text-2xl'>
+	// 					You currently have {emails.length} tasks running
+	// 				</h2>
+	// 			</div>
+
+	// 			{/* <button className='bg-accent-color text-lg text-secondary-button p-2'>
+	// 				TEST BUTTON
+	// 			</button> */}
+	// 		</>
+	// 	);
+	// }
 	return (
 		<>
 			{/* <h2>Welcome user {auth.name}</h2> */}
 
-			<h2>You currently have {emails.length} tasks running</h2>
-			<button className='bg-accent-color text-lg text-secondary-button p-2'>
+			<div className='flex items-center justify-center mt-48'>
+				<h2 className='text-2xl'>
+					You currently have {emails.length > 0 ? emails.length : "no"} tasks
+					running
+				</h2>
+			</div>
+
+			{/* <button className='bg-accent-color text-lg text-secondary-button p-2'>
 				TEST BUTTON
-			</button>
+			</button> */}
 		</>
 	);
 }
