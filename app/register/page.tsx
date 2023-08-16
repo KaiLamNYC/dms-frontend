@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Router from "next/router";
 import React, { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import Navbar from "../components/Navbar";
 
 import registerUser from "../lib/registerUser";
@@ -16,10 +17,25 @@ export default function RegisterPage() {
 
 	const router = useRouter();
 
-	const handleSubmit = (e: any) => {
+	const handleSubmit = async (e: any) => {
 		e.preventDefault();
 		//REGISTER FUNCTION
-		registerUser(email, name, password);
+		// const data = await registerUser(email, name, password);
+		await toast.promise(registerUser(email, name, password), {
+			loading: "Registering...",
+			success: <b>Account created!</b>,
+			error: <b>Error creating account!</b>,
+		});
+		router.push("/login");
+
+		// if (data.message == "success") {
+		// 	toast.success("Successfully signed up!");
+		// 	setEmail("");
+		// 	setName("");
+		// 	setPassword("");
+		// } else {
+		// 	toast.error("Error creating account!");
+		// }
 
 		//need some error handling before redirect to login
 		// router.push('/login')
@@ -35,6 +51,8 @@ export default function RegisterPage() {
 		  <body class="h-full">
 		  ```
 		*/}
+			<Toaster position='top-center' reverseOrder={false} />
+
 			<Navbar />
 			<div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
 				<div className='sm:mx-auto sm:w-full sm:max-w-sm'>

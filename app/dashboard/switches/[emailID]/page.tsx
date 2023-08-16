@@ -73,6 +73,7 @@ export default function OneEmailPage({ params }) {
 			<div className='bg-white rounded-lg border-4 border-primary-button p-2 shadow-sm mt-6 '>
 				<h3 className='text-xl font-bold mb-2'>{oneEmail.toAddress} </h3>
 				<h4 className='text-gray-600 text-xl'>{oneEmail.subject}</h4>
+
 				<h4 className='text-gray-600 text-l'>{oneEmail.intervals}</h4>
 
 				<p className='text-gray-600 mt-4'>Password:</p>

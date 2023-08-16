@@ -14,21 +14,30 @@ export default function CreateSwitch() {
 
 	const handleCreateTask = async (e: any) => {
 		e.preventDefault();
-		setIntervals(intervalList.join(", "));
+		let allIntervals = intervalList.join(", ");
+		// setIntervals(intervalList.join(", "));
 		const data = await createEmail(
 			toEmail,
 			toSubject,
 			emailPassword,
-			intervals,
+			allIntervals,
 			emailBody
 		);
 		router.push("/dashboard");
 	};
 
+	const testButton = async (e: any) => {
+		console.log(intervalList);
+		console.log(intervalList.join(", "));
+	};
 	const addDate = async (e: any) => {
 		e.preventDefault();
-		console.log(intervalList);
-		setIntervalList([...intervalList, intervals]);
+		if (intervals !== "") {
+			setIntervalList([...intervalList, intervals]);
+			// console.log(intervalList);
+
+			setIntervals("");
+		}
 	};
 
 	const clearDates = async (e: any) => {
@@ -190,6 +199,7 @@ export default function CreateSwitch() {
 					</button>
 				</div>
 			</form>
+			<button onClick={testButton}>push me</button>
 		</div>
 	);
 }
