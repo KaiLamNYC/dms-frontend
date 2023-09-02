@@ -26,10 +26,6 @@ export default function CreateSwitch() {
 		router.push("/dashboard");
 	};
 
-	const testButton = async (e: any) => {
-		console.log(intervalList);
-		console.log(intervalList.join(", "));
-	};
 	const addDate = async (e: any) => {
 		e.preventDefault();
 		if (intervals !== "") {
@@ -199,7 +195,6 @@ export default function CreateSwitch() {
 					</button>
 				</div>
 			</form>
-			<button onClick={testButton}>push me</button>
 		</div>
 	);
 }
